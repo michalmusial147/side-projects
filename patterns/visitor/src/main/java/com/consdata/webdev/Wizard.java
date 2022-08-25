@@ -1,17 +1,17 @@
-package com.consdata.visitor;
+package com.consdata.webdev;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Worker extends Person {
+public class Wizard extends Person {
 
-    private int speed;
+    private int mana;
 
-    public Worker(int health, int morale, int speed) {
+    public Wizard(int health, int morale, int mana) {
         super(health, morale);
-        this.speed = speed;
+        this.mana = mana;
     }
 
     @Override

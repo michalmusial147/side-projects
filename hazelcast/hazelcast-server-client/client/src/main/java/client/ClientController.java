@@ -1,13 +1,15 @@
 package client;
 
 
-import client.entities.SnapshotData;
+import client.notes.Note;
+import client.notes.SnapshotData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -16,18 +18,13 @@ public class ClientController {
     @Autowired
     private CacheService cacheService;
 
-    @GetMapping("/info")
-    public String getConfig() {
-        return "Helloworld";
-    }
-
     @PostMapping(value = "/data")
-    public Integer addData(@RequestBody SnapshotData data) {
-        return cacheService.addSnapshoot(data);
+    public Long addData(@RequestBody List<Note> quotes) {
+        return cacheService.addSnapshoot(quotes);
     }
 
     @GetMapping("/data")
-    public Map<Integer, String> getData() {
+    public Map<Long, SnapshotData> getData() {
         return cacheService.getCache();
     }
 

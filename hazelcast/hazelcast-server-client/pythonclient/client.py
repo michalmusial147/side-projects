@@ -5,7 +5,7 @@ client = hazelcast.HazelcastClient()
 # Get the Distributed Map from Cluster.
 my_map = client.get_map("data").blocking()
 # Standard Put and Get
-print(my_map.get(-814598076))
+print(my_map.get(992533683))
 
 # Shutdown this Hazelcast Client
 client.shutdown()

@@ -1,4 +1,4 @@
-package com.consdata.visitor;
+package com.consdata.webdev;
 
 public interface Visitor {
     void visit(Warrior person);
