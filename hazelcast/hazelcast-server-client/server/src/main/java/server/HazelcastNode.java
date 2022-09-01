@@ -11,11 +11,8 @@ import java.util.Map;
 @Slf4j
 public class HazelcastNode {
 
-    private Map<Long, Object> map;
-
     public HazelcastNode(){
         log.info("Starting node");
         HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance();
-        map = hazelcastInstance.getMap("data");
      }
 }

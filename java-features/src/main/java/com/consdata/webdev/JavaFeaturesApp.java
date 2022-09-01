@@ -16,6 +16,14 @@ public class JavaFeaturesApp {
 		System.out.println("List " + (contains(list).test(book1) ? "contains ".concat(book1.getTitle()): "does not contain ".concat(book1.getTitle())));
 		System.out.println("List " + (contains(list).test(book2) ? "contains ".concat(book2.getTitle()): "does not contain ").concat(book2.getTitle()));
 
+		ExceptionThrower exceptionThrower = new ExceptionThrower();
+
+		try {
+			exceptionThrower.throwException();
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 
 	}
 
