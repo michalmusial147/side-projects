@@ -20,19 +20,14 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.7.2")
     compileOnly("org.projectlombok:lombok:1.18.24")
     annotationProcessor("org.projectlombok:lombok:1.18.24")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.7.3")
+    implementation(project(":client"))
 }
+
+tasks.register("prepareKotlinBuildScriptModel"){}
 
 group = "com.consdata"
 version = "0.1.0"
 description = "hazelcast-server"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
-publishing {
-    publications.create<MavenPublication>("maven") {
-        from(components["java"])
-    }
-}
-
-tasks.withType<JavaCompile>() {
-    options.encoding = "UTF-8"
-}

@@ -1,3 +1,3 @@
-rootProject.name = 'hazelcast-project'
+rootProject.name = "hazelcast-project"
 include("server", "client")
 

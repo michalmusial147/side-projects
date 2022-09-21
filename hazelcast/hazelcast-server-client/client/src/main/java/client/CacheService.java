@@ -24,12 +24,11 @@ public class CacheService  {
     private final Map<String, SnapshotData> map;
     private final FlakeIdGenerator idGenerator;
 
-    public CacheService(SnapshotDataRepository repository) {
+    public CacheService() {
         ClientConfig config = new ClientConfig();
         HazelcastInstance hazelcastInstanceClient = com.hazelcast.client.HazelcastClient.newHazelcastClient(config);
         this.map = hazelcastInstanceClient.getMap("data");
         this.idGenerator = hazelcastInstanceClient.getFlakeIdGenerator("idGenerator");
-        this.repository = repository;
     }
 
     public String addSnapshot(List<Note> notes) {
@@ -42,8 +41,6 @@ public class CacheService  {
     public SnapshotData getData(String id) {
         return map.get(id);
     }
-
-
 
     public String clearCache() {
         Iterable<String> keys = map.keySet();

@@ -1,4 +1,4 @@
-package client.notes;
+package server.notes;
 
 
 import lombok.AllArgsConstructor;
@@ -13,12 +13,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Builder

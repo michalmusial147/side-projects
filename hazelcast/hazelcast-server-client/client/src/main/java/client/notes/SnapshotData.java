@@ -1,23 +1,24 @@
 package client.notes;
 
 
-import client.users.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -30,14 +31,11 @@ public class SnapshotData implements Serializable {
     @Serial
     private static final long serialVersionUID = 4330123309133827907L;
     @Id
-    @GeneratedValue
-    private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
 
-    @OneToMany(mappedBy = "snapshotData")
+    @OneToMany(mappedBy = "snapshotData", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     private List<Note> notes;
-
-    @ManyToOne
-    @JoinColumn(name="appuser_id", nullable=false)
-    private AppUser appUser;
 
 }

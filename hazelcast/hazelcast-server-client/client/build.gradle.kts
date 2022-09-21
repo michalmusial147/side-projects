@@ -29,7 +29,6 @@ dependencies {
 
 group = "com.consdata"
 version = "0.1.0"
-description = "hazelcast-client"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 publishing {
@@ -41,3 +40,4 @@ publishing {
 tasks.withType<JavaCompile>() {
     options.encoding = "UTF-8"
 }
+tasks.register("prepareKotlinBuildScriptModel"){}
