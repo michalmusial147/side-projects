@@ -1,72 +1,83 @@
 package server;
 
 
-
+import cache.CollectionDataModel;
 import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.MapLoader;
 import com.hazelcast.map.MapStore;
-
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import server.notes.SnapshotData;
-
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import server.entities.CollectionDataEntity;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class AppMapLoader implements MapLoader<String, SnapshotData>, MapStore<String, SnapshotData> {
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class AppMapLoader implements MapLoader<String, CollectionDataModel>, MapStore<String, CollectionDataModel> {
 
-    private final SnapshotDataRepository repository;
-    private final Map<String, SnapshotData> map;
+    private SnapshotDataRepository repository;
 
-    public AppMapLoader(SnapshotDataRepository repository) {
-        ClientConfig config = new ClientConfig();
-        HazelcastInstance hazelcastInstanceClient = com.hazelcast.client.HazelcastClient.newHazelcastClient(config);
-        this.map = hazelcastInstanceClient.getMap("data");
-        this.repository = repository;
+    private ModelMapper modelMapper;
+
+
+    @Override
+    public synchronized CollectionDataModel load(String key) {
+        log.info("Loading data from repository id=[{}]", key);
+        CollectionDataEntity collectionDataEntity = repository.findById(key).orElse(null);
+        return collectionDataEntity == null ? null : modelMapper.map(collectionDataEntity, CollectionDataModel.class);
     }
 
     @Override
-    public  SnapshotData load(String key) {
-        return repository.findById(key).orElse(null);
-    }
-
-    @Override
-    public Map<String, SnapshotData> loadAll(Collection<String> keys) {
-        return repository.findAllById(keys)
+    public  synchronized Map<String, CollectionDataModel> loadAll(Collection<String> keys) {
+        log.info("Loading data from repository ids=[{}]", keys);
+        Map<String, CollectionDataEntity> collect = repository.findAllById(keys)
                 .stream()
-                .collect(Collectors.toMap(SnapshotData::getId, Function.identity()));
+                .collect(Collectors.toMap(CollectionDataEntity::getId, Function.identity()));
+        Map<String, CollectionDataModel> collect2 = new HashMap<>();
+        collect.forEach((key, value) -> collect2.put(key, modelMapper.map(value, CollectionDataModel.class)));
+        return collect2;
     }
 
     @Override
-    public Iterable<String> loadAllKeys() {
-        return map.keySet();
+    public synchronized Iterable<String> loadAllKeys() {
+        return repository.findAll().stream().map(CollectionDataEntity::getId).collect(Collectors.toList());
     }
 
     @Override
-    public void store(String key, SnapshotData value) {
+    public synchronized void store(String key, CollectionDataModel value) {
         log.info("Saving data to repository id=[{}]", key);
-        repository.save(value);
+        repository.save(modelMapper.map(value, CollectionDataEntity.class));
     }
 
     @Override
-    public void storeAll(Map<String, SnapshotData> map) {
+    public synchronized void storeAll(Map<String, CollectionDataModel> map) {
         log.info("Saving data to repository data=[{}]", map);
-        repository.saveAll(map.values());
+        repository.saveAll(map.values().stream().map(item -> modelMapper.map(item, CollectionDataEntity.class))
+                .collect(Collectors.toList()));
     }
 
     @Override
-    public void delete(String key) {
+    public synchronized void delete(String key) {
         log.info("Deleting data from repository id=[{}]", key);
         repository.deleteById(key);
     }
 
     @Override
-    public void deleteAll(Collection<String> keys) {
-        log.info("Deleting data from repository data=[{}]", map);
+    public synchronized void deleteAll(Collection<String> keys) {
+        log.info("Deleting data from repository data=[{}]", keys);
         repository.deleteAllById(keys);
     }
 }

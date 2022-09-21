@@ -20,11 +20,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:2.7.2")
     implementation("io.springfox:springfox-boot-starter:3.0.0")
     implementation("io.springfox:springfox-swagger-ui:3.0.0")
-    implementation("com.h2database:h2:2.1.214")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.7.3")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.7.2")
     compileOnly("org.projectlombok:lombok:1.18.24")
     annotationProcessor("org.projectlombok:lombok:1.18.24")
+    implementation(project(":api"))
 }
 
 group = "com.consdata"

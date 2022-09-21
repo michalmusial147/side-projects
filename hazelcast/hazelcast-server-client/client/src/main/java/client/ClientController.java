@@ -1,8 +1,9 @@
 package client;
 
 
-import client.notes.Note;
-import client.notes.SnapshotData;
+import cache.CollectionDataModel;
+import cache.NestedItemModel;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,9 +24,9 @@ public class ClientController {
     }
 
     @PostMapping(value = "/data")
-    public String addData(@RequestBody List<Note> quotes) {
-        log.info("Adding data=[{}]", quotes);
-        return cacheService.addSnapshot(quotes);
+    public String addData(@RequestBody List<NestedItemModel> items) {
+        log.info("Adding data=[{}]", items);
+        return cacheService.addSnapshot(items);
     }
 
     @PostMapping(value = "/clearCache")
@@ -35,7 +36,7 @@ public class ClientController {
     }
 
     @GetMapping(value = "/{id}/data")
-    public SnapshotData getData(@PathVariable String id) {
+    public CollectionDataModel getData(@PathVariable String id) {
         log.info("Getting data id=[{}]", id);
         return cacheService.getData(id);
     }

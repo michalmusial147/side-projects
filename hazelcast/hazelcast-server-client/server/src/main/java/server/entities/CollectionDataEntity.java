@@ -1,4 +1,4 @@
-package server.notes;
+package server.entities;
 
 
 import lombok.AllArgsConstructor;
@@ -14,8 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -24,16 +22,15 @@ import java.util.List;
 @Table(name="snapshotdata")
 @AllArgsConstructor
 @NoArgsConstructor
-public class SnapshotData implements Serializable {
+public class CollectionDataEntity  {
 
-    @Serial
-    private static final long serialVersionUID = 4330123309133827907L;
+
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    @OneToMany(mappedBy = "snapshotData", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
-    private List<Note> notes;
+    @OneToMany(mappedBy = "collectionDataEntity", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
+    private List<NestedItemEntity> nestedItems;
 
 }

@@ -21,7 +21,9 @@ dependencies {
     compileOnly("org.projectlombok:lombok:1.18.24")
     annotationProcessor("org.projectlombok:lombok:1.18.24")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.7.3")
-    implementation(project(":client"))
+    implementation(project(":api"))
+    implementation("org.modelmapper:modelmapper:3.1.0")
+    implementation("com.h2database:h2:2.1.214")
 }
 
 tasks.register("prepareKotlinBuildScriptModel"){}

@@ -1,4 +1,4 @@
-package client.notes;
+package server.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,21 +11,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.Table;
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.UUID;
+
 
 @Data
 @Builder
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Note implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = -4092256533856781296L;
+public class NestedItemEntity   {
 
     @Id
     @GeneratedValue(generator = "uuid")
@@ -37,7 +30,7 @@ public class Note implements Serializable {
     private double price;
 
     @ManyToOne
-    @JoinColumn(name="snapshotData_id")
-    private SnapshotData snapshotData;
+    @JoinColumn(name="collectionDataEntity_id")
+    private CollectionDataEntity collectionDataEntity;
 
 }

@@ -3,8 +3,8 @@ package server;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import server.notes.SnapshotData;
+import server.entities.CollectionDataEntity;
 
 @Repository
-public interface SnapshotDataRepository extends JpaRepository<SnapshotData, String> {
+public interface SnapshotDataRepository extends JpaRepository<CollectionDataEntity, String> {
 }

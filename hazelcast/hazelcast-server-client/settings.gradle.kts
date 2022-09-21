@@ -1,3 +1,2 @@
 rootProject.name = "hazelcast-project"
-include("server", "client")
-
+include("server", "client", "api")
