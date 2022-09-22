@@ -21,15 +21,15 @@ public class HazelcastNode {
     public HazelcastNode(SnapshotDataRepository repository, ModelMapper modelMapper){
         this.repository = repository;
         this.modelMapper = modelMapper;
-
-        log.info("Starting node");
         Config config = createNewConfig("data");
+        log.info("Starting node");
         Hazelcast.newHazelcastInstance(config);
      }
 
     private  Config createNewConfig(String mapName) {
         MapStoreConfig mapStoreConfig = new MapStoreConfig();
-        mapStoreConfig.setImplementation(new AppMapLoader(repository, modelMapper));
+        AppMapLoader loader = new AppMapLoader(repository, modelMapper);
+        mapStoreConfig.setImplementation(loader);
         mapStoreConfig.setWriteDelaySeconds(0);
         XmlConfigBuilder configBuilder = new XmlConfigBuilder();
         Config config = configBuilder.build();

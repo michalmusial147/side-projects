@@ -8,17 +8,8 @@
         <join>
             <multicast enabled="false"/>
             <tcp-ip enabled="true">
-                <member>machine1</member>
                 <member>localhost</member>
             </tcp-ip>
         </join>
     </network>
-<!--    <map name="data">-->
-<!--        <map-store enabled="true" initial-mode="LAZY">-->
-<!--            <class-name>server.AppMapLoader</class-name>-->
-<!--            <write-delay-seconds>0</write-delay-seconds>-->
-<!--            <write-batch-size>1000</write-batch-size>-->
-<!--            <write-coalescing>true</write-coalescing>-->
-<!--        </map-store>-->
-<!--    </map>-->
 </hazelcast>
